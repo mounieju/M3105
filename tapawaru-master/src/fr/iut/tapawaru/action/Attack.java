@@ -265,16 +265,7 @@ public class Attack extends Spell
 			int xCaster = caster.getCellTraveled().getPosition().getPositionX();
 			int yCaster = caster.getCellTraveled().getPosition().getPositionY();
 			
-			for (int y = yCaster - 1 ; y <= yCaster + 1 ; y++)
-			{
-				for (int x = xCaster - 1 ; x <= xCaster + 1 ; x++)
-				{
-					if ((x != xCaster || y != yCaster) &&
-						x >= 0 && y >= 0 &&
-						x < map.getXSize() && y < map.getYSize())
-						cellList.add(new CellPosition(x, y));
-				}
-			}
+			makeAnArroundAttack(map, cellList, xCaster, yCaster);
 			
 			executeAttack(map, cellList, getAttackType(map, caster.getCellTraveled()));
 			map.getTeamController().deduct(1);
@@ -284,6 +275,23 @@ public class Attack extends Spell
 
 		return cellList;
 	}
+
+/***************************************************************************************************/
+	private static void makeAnArroundAttack(Map map,
+			ArrayList<CellPosition> cellList, int xCaster, int yCaster)
+	{
+		for (int y = yCaster - 1 ; y <= yCaster + 1 ; y++)
+		{
+			for (int x = xCaster - 1 ; x <= xCaster + 1 ; x++)
+			{
+				if ((x != xCaster || y != yCaster) &&
+					x >= 0 && y >= 0 &&
+					x < map.getXSize() && y < map.getYSize())
+					cellList.add(new CellPosition(x, y));
+			}
+		}
+	}
+/***************************************************************************************************/
 	
 	/**
 	 * flowerBomb
