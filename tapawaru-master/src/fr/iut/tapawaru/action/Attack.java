@@ -129,7 +129,8 @@ public class Attack extends Spell
 			map.getCharacter(cellPos.getPositionX(), cellPos.getPositionY()).setBuff(Buff.NORMAL);
 		}
 	}
-	
+
+/*****************************laserbeam attack**********************************************************************/
 	/**
 	 * laserBeam
 	 * o: caster
@@ -143,6 +144,16 @@ public class Attack extends Spell
 	{
 		ArrayList<CellPosition> cellList = new ArrayList<CellPosition>();
 
+		makeLaserBeamAttack(map, caster, target, cellList);
+		
+		return cellList;
+	}
+
+/*****************************attack method for a laser beam***********************************************/
+
+	private static void makeLaserBeamAttack(Map map, Character caster,
+			CellPosition target, ArrayList<CellPosition> cellList) 
+	{
 		if (map.getTeamController().isDeductable(1))
 		{
 		
@@ -162,11 +173,9 @@ public class Attack extends Spell
 			executeAttack(map, cellList, getAttackType(map, caster.getCellTraveled()));
 			map.getTeamController().deduct(1);
 		}
-		
-		return cellList;
 	}
 
-/***************************************************************************************************/
+/******************************direction of the attack (vertical)*******************************************************/
 	private static void makeAVerticalAttack(Map map, Character caster,
 			ArrayList<CellPosition> cellList, int deltaY) 
 	{
@@ -206,7 +215,7 @@ public class Attack extends Spell
 		}
 	}
 
-/***************************************************************************************************/
+/******************************direction of the attack (horizontal)*********************************************************************/
 	
 	private static void makeAnHorizontalAttack(Map map, Character caster,
 			ArrayList<CellPosition> cellList, int deltaX) 
@@ -246,7 +255,8 @@ public class Attack extends Spell
 			cellList.add(new CellPosition(x, y));
 		}
 	}
-/***************************************************************************************************/
+
+/*****************************aroundCaster attack**********************************************************************/
 	/**
 	 * aroundCaster
 	 * o: caster
@@ -260,23 +270,32 @@ public class Attack extends Spell
 
 		ArrayList<CellPosition> cellList = new ArrayList<CellPosition>();
 		
-		if (map.getTeamController().isDeductable(1))
-		{
-			int xCaster = caster.getCellTraveled().getPosition().getPositionX();
-			int yCaster = caster.getCellTraveled().getPosition().getPositionY();
-			
-			selectCellForArroundAttack(map, cellList, xCaster, yCaster);
-			
-			executeAttack(map, cellList, getAttackType(map, caster.getCellTraveled()));
-			map.getTeamController().deduct(1);
-
-		}
+		makeAroundCasterAttack(map, caster, cellList);
 
 
 		return cellList;
 	}
 
-/***************************************************************************************************/
+/*****************************attack method for an around attack**********************************************************************/
+
+	private static void makeAroundCasterAttack(Map map, Character caster,
+			ArrayList<CellPosition> cellList) 
+	{
+		if (map.getTeamController().isDeductable(1))
+		{
+			int xCaster = caster.getCellTraveled().getPosition().getPositionX();
+			int yCaster = caster.getCellTraveled().getPosition().getPositionY();
+		
+			selectCellForArroundAttack(map, cellList, xCaster, yCaster);
+		
+			executeAttack(map, cellList, getAttackType(map, caster.getCellTraveled()));
+			map.getTeamController().deduct(1);
+
+		}
+	}
+
+/********************************direction of the attack*******************************************************************/
+	
 	private static void selectCellForArroundAttack(Map map,
 			ArrayList<CellPosition> cellList, int xCaster, int yCaster)
 	{
@@ -291,7 +310,8 @@ public class Attack extends Spell
 			}
 		}
 	}
-/***************************************************************************************************/
+
+/*****************************flowerbomb attack**********************************************************************/
 	
 	/**
 	 * flowerBomb
@@ -307,20 +327,28 @@ public class Attack extends Spell
 		
 		ArrayList<CellPosition> cellList = new ArrayList<CellPosition>();
 		
-		if (map.getTeamController().isDeductable(1))
-		{
-			selectCellForCrossAttack(map, target, cellList);
-			
-			executeAttack(map, cellList, getAttackType(map, caster.getCellTraveled()));
-			map.getTeamController().deduct(1);
-
-		}
+		makeFlowerBombAttack(map, caster, target, cellList);
 
 
 		return cellList;
 	}
 
-/***************************************************************************************************/
+/*****************************attack method for a flower bomb attack**********************************************************************/
+
+	private static void makeFlowerBombAttack(Map map, Character caster,
+		CellPosition target, ArrayList<CellPosition> cellList) 
+	{
+		if (map.getTeamController().isDeductable(1))
+		{
+			selectCellForCrossAttack(map, target, cellList);
+		
+			executeAttack(map, cellList, getAttackType(map, caster.getCellTraveled()));
+			map.getTeamController().deduct(1);
+
+		}
+	}
+
+/******************************direction of the attack*********************************************************************/
 	
 	private static void selectCellForCrossAttack(Map map, CellPosition target,
 			ArrayList<CellPosition> cellList) 
