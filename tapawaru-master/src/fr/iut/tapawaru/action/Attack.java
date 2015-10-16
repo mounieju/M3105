@@ -35,33 +35,21 @@ public class Attack extends Spell
 			case HOLY:
 				for (CellPosition cellPos : posList)
 				{
-					if (map.getCharacter(cellPos.getPositionX(), cellPos.getPositionY()) != null)
-					{
-						map.getCharacter(cellPos.getPositionX(), cellPos.getPositionY()).heal(1);
-						map.getCharacter(cellPos.getPositionX(), cellPos.getPositionY()).setBuff(Buff.NORMAL);
-					}
+					makeItHoly(map, cellPos);
 				}
 				break;
 				
 			case FIRE:
 				for (CellPosition cellPos : posList)
 				{
-					if (map.getCharacter(cellPos.getPositionX(), cellPos.getPositionY()) != null)
-					{
-						map.getCharacter(cellPos.getPositionX(), cellPos.getPositionY()).setBuff(Buff.BURNING);
-						map.getCharacter(cellPos.getPositionX(), cellPos.getPositionY()).inflict(2);
-					}
+					makeItBurn(map, cellPos);
 				}
 				break;
 				
 			case ICE:
 				for (CellPosition cellPos : posList)
 				{
-					if (map.getCharacter(cellPos.getPositionX(), cellPos.getPositionY()) != null)
-					{
-						map.getCharacter(cellPos.getPositionX(), cellPos.getPositionY()).setBuff(Buff.FREEZING);
-						map.getCharacter(cellPos.getPositionX(), cellPos.getPositionY()).inflict(2);
-					}
+					makeItFreeze(map, cellPos);
 
 				}
 				break;
@@ -69,15 +57,7 @@ public class Attack extends Spell
 			case AIR:
 				for (CellPosition cellPos : posList)
 				{
-					if (map.getCharacter(cellPos.getPositionX(), cellPos.getPositionY()) != null)
-					{
-						Character pers = map.getCharacter(cellPos.getPositionX(), cellPos.getPositionY());
-						
-						if (pers.getBuff() == Buff.BURNING)
-							pers.setBuff(Buff.NORMAL);
-						
-						pers.inflict(1);
-					}
+					makeAnAirAttack(map, cellPos);
 
 						
 				}
@@ -86,10 +66,7 @@ public class Attack extends Spell
 			default:
 				for (CellPosition cellPos : posList)
 				{
-					if (map.getCharacter(cellPos.getPositionX(), cellPos.getPositionY()) != null)
-					{
-						map.getCharacter(cellPos.getPositionX(), cellPos.getPositionY()).inflict(1);
-					}
+					makeANormalAttack(map, cellPos);
 
 				}
 
@@ -98,6 +75,59 @@ public class Attack extends Spell
 		
 		map.getTeamController().checkWin();
 
+	}
+
+
+	private static void makeANormalAttack(Map map, CellPosition cellPos)
+	{
+		if (map.getCharacter(cellPos.getPositionX(), cellPos.getPositionY()) != null)
+		{
+			map.getCharacter(cellPos.getPositionX(), cellPos.getPositionY()).inflict(1);
+		}
+	}
+
+
+	private static void makeAnAirAttack(Map map, CellPosition cellPos) 
+	{
+		if (map.getCharacter(cellPos.getPositionX(), cellPos.getPositionY()) != null)
+		{
+			Character pers = map.getCharacter(cellPos.getPositionX(), cellPos.getPositionY());
+			
+			if (pers.getBuff() == Buff.BURNING)
+				pers.setBuff(Buff.NORMAL);
+			
+			pers.inflict(1);
+		}
+	}
+
+
+	private static void makeItFreeze(Map map, CellPosition cellPos) 
+	{
+		if (map.getCharacter(cellPos.getPositionX(), cellPos.getPositionY()) != null)
+		{
+			map.getCharacter(cellPos.getPositionX(), cellPos.getPositionY()).setBuff(Buff.FREEZING);
+			map.getCharacter(cellPos.getPositionX(), cellPos.getPositionY()).inflict(2);
+		}
+	}
+
+
+	private static void makeItBurn(Map map, CellPosition cellPos) 
+	{
+		if (map.getCharacter(cellPos.getPositionX(), cellPos.getPositionY()) != null)
+		{
+			map.getCharacter(cellPos.getPositionX(), cellPos.getPositionY()).setBuff(Buff.BURNING);
+			map.getCharacter(cellPos.getPositionX(), cellPos.getPositionY()).inflict(2);
+		}
+	}
+
+
+	private static void makeItHoly(Map map, CellPosition cellPos) 
+	{
+		if (map.getCharacter(cellPos.getPositionX(), cellPos.getPositionY()) != null)
+		{
+			map.getCharacter(cellPos.getPositionX(), cellPos.getPositionY()).heal(1);
+			map.getCharacter(cellPos.getPositionX(), cellPos.getPositionY()).setBuff(Buff.NORMAL);
+		}
 	}
 	
 	/**
