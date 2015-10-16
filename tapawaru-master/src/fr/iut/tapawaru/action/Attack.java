@@ -166,56 +166,87 @@ public class Attack extends Spell
 		return cellList;
 	}
 
-
+/***************************************************************************************************/
 	private static void makeAVerticalAttack(Map map, Character caster,
-			ArrayList<CellPosition> cellList, int deltaY) {
+			ArrayList<CellPosition> cellList, int deltaY) 
+	{
 		if (deltaY > 0)	//down
 		{
-			for (int x = caster.getCellTraveled().getPosition().getPositionX(),
-				 	 y = caster.getCellTraveled().getPosition().getPositionY()+1;
-				 y < map.getYSize();
-				 y++)
-			{
-				cellList.add(new CellPosition(x, y));
-			}
+			makeAnAttackDown(map, caster, cellList);
 		}
 		else	//up
 		{
-			for (int x = caster.getCellTraveled().getPosition().getPositionX(),
-				 	 y = caster.getCellTraveled().getPosition().getPositionY()-1;
-				 y >= 0;
-				 y--)
-			{
-				cellList.add(new CellPosition(x, y));
-			}
+			makeAnAttackUp(caster, cellList);
 		}
 	}
 
 
+	private static void makeAnAttackUp(Character caster,
+			ArrayList<CellPosition> cellList) 
+	{
+		for (int x = caster.getCellTraveled().getPosition().getPositionX(),
+			 	 y = caster.getCellTraveled().getPosition().getPositionY()-1;
+			 y >= 0;
+			 y--)
+		{
+			cellList.add(new CellPosition(x, y));
+		}
+	}
+
+
+	private static void makeAnAttackDown(Map map, Character caster,
+			ArrayList<CellPosition> cellList) 
+	{
+		for (int x = caster.getCellTraveled().getPosition().getPositionX(),
+			 	 y = caster.getCellTraveled().getPosition().getPositionY()+1;
+			 y < map.getYSize();
+			 y++)
+		{
+			cellList.add(new CellPosition(x, y));
+		}
+	}
+
+/***************************************************************************************************/
+	
 	private static void makeAnHorizontalAttack(Map map, Character caster,
-			ArrayList<CellPosition> cellList, int deltaX) {
+			ArrayList<CellPosition> cellList, int deltaX) 
+	{
 		if (deltaX > 0) //right
 		{
-			for (int x = caster.getCellTraveled().getPosition().getPositionX()+1,
-					 y = caster.getCellTraveled().getPosition().getPositionY();
-				 x < map.getXSize();
-				 x++)
-			{
-				cellList.add(new CellPosition(x, y));
-			}
+			makeAnAttackToTheRight(map, caster, cellList);
 		}
 		else	//left
 		{
-			for (int x = caster.getCellTraveled().getPosition().getPositionX()-1,
-				 	 y = caster.getCellTraveled().getPosition().getPositionY();
-				 x >= 0;
-				 x--)
-			{
-				cellList.add(new CellPosition(x, y));
-			}
+			makeAnAttackToTheLeft(caster, cellList);
 		}
 	}
-	
+
+
+	private static void makeAnAttackToTheLeft(Character caster,
+			ArrayList<CellPosition> cellList) 
+	{
+		for (int x = caster.getCellTraveled().getPosition().getPositionX()-1,
+				y = caster.getCellTraveled().getPosition().getPositionY();
+				x >= 0;
+				x--)
+		{
+			cellList.add(new CellPosition(x, y));
+		}
+	}
+
+
+	private static void makeAnAttackToTheRight(Map map, Character caster,
+			ArrayList<CellPosition> cellList) 
+	{
+		for (int x = caster.getCellTraveled().getPosition().getPositionX()+1,
+				y = caster.getCellTraveled().getPosition().getPositionY();
+				x < map.getXSize();
+				x++)
+		{
+			cellList.add(new CellPosition(x, y));
+		}
+	}
+/***************************************************************************************************/
 	/**
 	 * aroundCaster
 	 * o: caster
