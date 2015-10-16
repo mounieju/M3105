@@ -172,16 +172,16 @@ public class Attack extends Spell
 	{
 		if (deltaY > 0)	//down
 		{
-			makeAnAttackDown(map, caster, cellList);
+			selectCellForAnAttackDown(map, caster, cellList);
 		}
 		else	//up
 		{
-			makeAnAttackUp(caster, cellList);
+			selectCellForAnAttackUp(caster, cellList);
 		}
 	}
 
 
-	private static void makeAnAttackUp(Character caster,
+	private static void selectCellForAnAttackUp(Character caster,
 			ArrayList<CellPosition> cellList) 
 	{
 		for (int x = caster.getCellTraveled().getPosition().getPositionX(),
@@ -194,7 +194,7 @@ public class Attack extends Spell
 	}
 
 
-	private static void makeAnAttackDown(Map map, Character caster,
+	private static void selectCellForAnAttackDown(Map map, Character caster,
 			ArrayList<CellPosition> cellList) 
 	{
 		for (int x = caster.getCellTraveled().getPosition().getPositionX(),
@@ -213,16 +213,16 @@ public class Attack extends Spell
 	{
 		if (deltaX > 0) //right
 		{
-			makeAnAttackToTheRight(map, caster, cellList);
+			selectCellForAnAttackToTheRight(map, caster, cellList);
 		}
 		else	//left
 		{
-			makeAnAttackToTheLeft(caster, cellList);
+			selectCellForAnAttackToTheLeft(caster, cellList);
 		}
 	}
 
 
-	private static void makeAnAttackToTheLeft(Character caster,
+	private static void selectCellForAnAttackToTheLeft(Character caster,
 			ArrayList<CellPosition> cellList) 
 	{
 		for (int x = caster.getCellTraveled().getPosition().getPositionX()-1,
@@ -235,7 +235,7 @@ public class Attack extends Spell
 	}
 
 
-	private static void makeAnAttackToTheRight(Map map, Character caster,
+	private static void selectCellForAnAttackToTheRight(Map map, Character caster,
 			ArrayList<CellPosition> cellList) 
 	{
 		for (int x = caster.getCellTraveled().getPosition().getPositionX()+1,
@@ -265,7 +265,7 @@ public class Attack extends Spell
 			int xCaster = caster.getCellTraveled().getPosition().getPositionX();
 			int yCaster = caster.getCellTraveled().getPosition().getPositionY();
 			
-			makeAnArroundAttack(map, cellList, xCaster, yCaster);
+			selectCellForArroundAttack(map, cellList, xCaster, yCaster);
 			
 			executeAttack(map, cellList, getAttackType(map, caster.getCellTraveled()));
 			map.getTeamController().deduct(1);
@@ -277,7 +277,7 @@ public class Attack extends Spell
 	}
 
 /***************************************************************************************************/
-	private static void makeAnArroundAttack(Map map,
+	private static void selectCellForArroundAttack(Map map,
 			ArrayList<CellPosition> cellList, int xCaster, int yCaster)
 	{
 		for (int y = yCaster - 1 ; y <= yCaster + 1 ; y++)
@@ -309,34 +309,7 @@ public class Attack extends Spell
 		
 		if (map.getTeamController().isDeductable(1))
 		{
-			int x, y,
-				xTarget = target.getPositionX(),
-				yTarget = target.getPositionY();
-			
-			x = xTarget; y = yTarget+1;
-			if (x >= 0 && y >= 0 &&
-				x < map.getXSize() && y < map.getYSize())
-				cellList.add(new CellPosition(x, y));
-			
-			x = xTarget; y = yTarget-1;
-			if (x >= 0 && y >= 0 &&
-				x < map.getXSize() && y < map.getYSize())
-				cellList.add(new CellPosition(x, y));
-			
-			x = xTarget+1; y = yTarget;
-			if (x >= 0 && y >= 0 &&
-				x < map.getXSize() && y < map.getYSize())
-				cellList.add(new CellPosition(x, y));
-			
-			x = xTarget-1; y = yTarget;
-			if (x >= 0 && y >= 0 &&
-					x < map.getXSize() && y < map.getYSize())
-				cellList.add(new CellPosition(x, y));
-			
-			x = xTarget; y = yTarget;
-			if (x >= 0 && y >= 0 &&
-				x < map.getXSize() && y < map.getYSize())
-				cellList.add(new CellPosition(x, y));
+			selectCellForCrossAttack(map, target, cellList);
 			
 			executeAttack(map, cellList, getAttackType(map, caster.getCellTraveled()));
 			map.getTeamController().deduct(1);
@@ -345,5 +318,40 @@ public class Attack extends Spell
 
 
 		return cellList;
+	}
+
+/***************************************************************************************************/
+	
+	private static void selectCellForCrossAttack(Map map, CellPosition target,
+			ArrayList<CellPosition> cellList) 
+	{
+		int x, y,
+			xTarget = target.getPositionX(),
+			yTarget = target.getPositionY();
+		
+		x = xTarget; y = yTarget+1;
+		if (x >= 0 && y >= 0 &&
+			x < map.getXSize() && y < map.getYSize())
+			cellList.add(new CellPosition(x, y));
+		
+		x = xTarget; y = yTarget-1;
+		if (x >= 0 && y >= 0 &&
+			x < map.getXSize() && y < map.getYSize())
+			cellList.add(new CellPosition(x, y));
+		
+		x = xTarget+1; y = yTarget;
+		if (x >= 0 && y >= 0 &&
+			x < map.getXSize() && y < map.getYSize())
+			cellList.add(new CellPosition(x, y));
+		
+		x = xTarget-1; y = yTarget;
+		if (x >= 0 && y >= 0 &&
+				x < map.getXSize() && y < map.getYSize())
+			cellList.add(new CellPosition(x, y));
+		
+		x = xTarget; y = yTarget;
+		if (x >= 0 && y >= 0 &&
+			x < map.getXSize() && y < map.getYSize())
+			cellList.add(new CellPosition(x, y));
 	}
 }
