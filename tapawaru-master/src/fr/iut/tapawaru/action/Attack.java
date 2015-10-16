@@ -151,50 +151,12 @@ public class Attack extends Spell
 				
 			if (Math.abs(deltaX) > Math.abs(deltaY))
 			{
-				if (deltaX > 0) //right
-				{
-					for (int x = caster.getCellTraveled().getPosition().getPositionX()+1,
-							 y = caster.getCellTraveled().getPosition().getPositionY();
-						 x < map.getXSize();
-						 x++)
-					{
-						cellList.add(new CellPosition(x, y));
-					}
-				}
-				else	//left
-				{
-					for (int x = caster.getCellTraveled().getPosition().getPositionX()-1,
-						 	 y = caster.getCellTraveled().getPosition().getPositionY();
-						 x >= 0;
-						 x--)
-					{
-						cellList.add(new CellPosition(x, y));
-					}
-				}
+				makeAnHorizontalAttack(map, caster, cellList, deltaX);
 	
 			}
 			else
 			{
-				if (deltaY > 0)	//down
-				{
-					for (int x = caster.getCellTraveled().getPosition().getPositionX(),
-						 	 y = caster.getCellTraveled().getPosition().getPositionY()+1;
-						 y < map.getYSize();
-						 y++)
-					{
-						cellList.add(new CellPosition(x, y));
-					}
-				}
-				else	//up
-				{
-					for (int x = caster.getCellTraveled().getPosition().getPositionX(),
-						 	 y = caster.getCellTraveled().getPosition().getPositionY()-1;
-						 y >= 0;
-						 y--)
-					{
-						cellList.add(new CellPosition(x, y));
-					}
-				}
+				makeAVerticalAttack(map, caster, cellList, deltaY);
 			}
 			
 			executeAttack(map, cellList, getAttackType(map, caster.getCellTraveled()));
@@ -202,6 +164,56 @@ public class Attack extends Spell
 		}
 		
 		return cellList;
+	}
+
+
+	private static void makeAVerticalAttack(Map map, Character caster,
+			ArrayList<CellPosition> cellList, int deltaY) {
+		if (deltaY > 0)	//down
+		{
+			for (int x = caster.getCellTraveled().getPosition().getPositionX(),
+				 	 y = caster.getCellTraveled().getPosition().getPositionY()+1;
+				 y < map.getYSize();
+				 y++)
+			{
+				cellList.add(new CellPosition(x, y));
+			}
+		}
+		else	//up
+		{
+			for (int x = caster.getCellTraveled().getPosition().getPositionX(),
+				 	 y = caster.getCellTraveled().getPosition().getPositionY()-1;
+				 y >= 0;
+				 y--)
+			{
+				cellList.add(new CellPosition(x, y));
+			}
+		}
+	}
+
+
+	private static void makeAnHorizontalAttack(Map map, Character caster,
+			ArrayList<CellPosition> cellList, int deltaX) {
+		if (deltaX > 0) //right
+		{
+			for (int x = caster.getCellTraveled().getPosition().getPositionX()+1,
+					 y = caster.getCellTraveled().getPosition().getPositionY();
+				 x < map.getXSize();
+				 x++)
+			{
+				cellList.add(new CellPosition(x, y));
+			}
+		}
+		else	//left
+		{
+			for (int x = caster.getCellTraveled().getPosition().getPositionX()-1,
+				 	 y = caster.getCellTraveled().getPosition().getPositionY();
+				 x >= 0;
+				 x--)
+			{
+				cellList.add(new CellPosition(x, y));
+			}
+		}
 	}
 	
 	/**
