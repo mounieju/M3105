@@ -32,11 +32,11 @@ public class Move extends Action
 		
 		if (getAccessiblePos(map, pers).contains(target))
 		{
-			moveCharacter(map, pers, target, deltaX, deltaY);
+			moveCharacterOnMap(map, pers, target, deltaX, deltaY);
 		}
 	}
 
-	private static void moveCharacter(Map map, Character pers,CellPosition target, int deltaX, int deltaY) 
+	private static void moveCharacterOnMap(Map map, Character pers,CellPosition target, int deltaX, int deltaY) 
 	{
 		if (map.getTeamController().isDeductable(deltaX + deltaY))
 		{
