@@ -75,23 +75,16 @@ public class TeamController
 	public void checkWin()
 	{
 		int countDead1 = 0;
-		
-		for (int i = 0 ; i < 3 ; i++)
-		{
-			if (  ! (this.getTeam1().getCharacter()[i].isAlive())  )
-			{
-				countDead1++;
-			}
-		}
-		
 		int countDead2 = 0;
 		
 		for (int i = 0 ; i < 3 ; i++)
 		{
-			if (  ! (this.getTeam2().getCharacter()[i].isAlive())  )
-			{
-				countDead2++;
-			}
+			countDead1 = characterWhoIsDead(countDead1, i,this.team1);
+		}
+		
+		for (int i = 0 ; i < 3 ; i++)
+		{
+			characterWhoIsDead(countDead1, i,this.team2);
 		}
 		
 		if (countDead1 == 3 && countDead2 < 3)
@@ -108,6 +101,20 @@ public class TeamController
 		{
 			this.win(null);
 		}
+	}
+
+	/**
+	 * @param countDead1
+	 * @param i
+	 * @return
+	 */
+	private int characterWhoIsDead(int countDead1, int i,Team team) 
+	{
+		if (  ! (team.getCharacter()[i].isAlive())  )
+		{
+			countDead1++;
+		}
+		return countDead1;
 	}
 
 	/**
