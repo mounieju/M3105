@@ -29,23 +29,28 @@ public class Terra extends Spell
 			GlyphPosition[] glyphPosList = cellPosition
 					.generateAdjacentGlyphPosition();
 			
-			Glyph glyphBuffer = map.getGlyph(glyphPosList[3]);
-			
-			map.getGlyph(glyphPosList[2]).setGlyphPosition(glyphPosList[3]);
-			;
-			map.setGlyph(glyphPosList[3], map.getGlyph(glyphPosList[2]));
-			map.getGlyph(glyphPosList[1]).setGlyphPosition(glyphPosList[2]);
-			;
-			map.setGlyph(glyphPosList[2], map.getGlyph(glyphPosList[1]));
-			map.getGlyph(glyphPosList[0]).setGlyphPosition(glyphPosList[1]);
-			;
-			map.setGlyph(glyphPosList[1], map.getGlyph(glyphPosList[0]));
-			glyphBuffer.setGlyphPosition(glyphPosList[0]);
-			map.setGlyph(glyphPosList[0], glyphBuffer);
+			moveGlyphClockwise(map, glyphPosList);
 			
 			map.getTeamController().deduct(1);
 		}
 		
+	}
+
+	private static void moveGlyphClockwise(Map map, GlyphPosition[] glyphPosList)
+	{
+		Glyph glyphBuffer = map.getGlyph(glyphPosList[3]);
+		
+		map.getGlyph(glyphPosList[2]).setGlyphPosition(glyphPosList[3]);
+		;
+		map.setGlyph(glyphPosList[3], map.getGlyph(glyphPosList[2]));
+		map.getGlyph(glyphPosList[1]).setGlyphPosition(glyphPosList[2]);
+		;
+		map.setGlyph(glyphPosList[2], map.getGlyph(glyphPosList[1]));
+		map.getGlyph(glyphPosList[0]).setGlyphPosition(glyphPosList[1]);
+		;
+		map.setGlyph(glyphPosList[1], map.getGlyph(glyphPosList[0]));
+		glyphBuffer.setGlyphPosition(glyphPosList[0]);
+		map.setGlyph(glyphPosList[0], glyphBuffer);
 	}
 	
 	/**
@@ -61,22 +66,32 @@ public class Terra extends Spell
 			GlyphPosition[] glyphPosList = cellPosition
 					.generateAdjacentGlyphPosition();
 			
-			Glyph glyphBuffer = map.getGlyph(glyphPosList[0]);
-			
-			map.getGlyph(glyphPosList[1]).setGlyphPosition(glyphPosList[0]);
-			;
-			map.setGlyph(glyphPosList[0], map.getGlyph(glyphPosList[1]));
-			map.getGlyph(glyphPosList[2]).setGlyphPosition(glyphPosList[1]);
-			;
-			map.setGlyph(glyphPosList[1], map.getGlyph(glyphPosList[2]));
-			map.getGlyph(glyphPosList[3]).setGlyphPosition(glyphPosList[2]);
-			;
-			map.setGlyph(glyphPosList[2], map.getGlyph(glyphPosList[3]));
-			glyphBuffer.setGlyphPosition(glyphPosList[3]);
-			map.setGlyph(glyphPosList[3], glyphBuffer);
+			mmoveGlyphCounterClockwise(map, glyphPosList);
 			
 			map.getTeamController().deduct(1);
 		}
+	}
+
+	/**
+	 * @param map
+	 * @param glyphPosList
+	 */
+	private static void mmoveGlyphCounterClockwise(Map map,
+			GlyphPosition[] glyphPosList) 
+	{
+		Glyph glyphBuffer = map.getGlyph(glyphPosList[0]);
+		
+		map.getGlyph(glyphPosList[1]).setGlyphPosition(glyphPosList[0]);
+		;
+		map.setGlyph(glyphPosList[0], map.getGlyph(glyphPosList[1]));
+		map.getGlyph(glyphPosList[2]).setGlyphPosition(glyphPosList[1]);
+		;
+		map.setGlyph(glyphPosList[1], map.getGlyph(glyphPosList[2]));
+		map.getGlyph(glyphPosList[3]).setGlyphPosition(glyphPosList[2]);
+		;
+		map.setGlyph(glyphPosList[2], map.getGlyph(glyphPosList[3]));
+		glyphBuffer.setGlyphPosition(glyphPosList[3]);
+		map.setGlyph(glyphPosList[3], glyphBuffer);
 	}
 	
 	/**
@@ -89,18 +104,27 @@ public class Terra extends Spell
 			GlyphPosition[] glyphPosList = cellPosition
 					.generateAdjacentGlyphPosition();
 			
-			map.getGlyph(glyphPosList[0]).setTypeGlyph(
-					TypeGlyph.getRandomType());
-			map.getGlyph(glyphPosList[1]).setTypeGlyph(
-					TypeGlyph.getRandomType());
-			map.getGlyph(glyphPosList[2]).setTypeGlyph(
-					TypeGlyph.getRandomType());
-			map.getGlyph(glyphPosList[3]).setTypeGlyph(
-					TypeGlyph.getRandomType());
+			putRandomGlyph(map, glyphPosList);
 			
 			map.getTeamController().deduct(1);
 		}
 		
+	}
+
+	/**
+	 * @param map
+	 * @param glyphPosList
+	 */
+	private static void putRandomGlyph(Map map, GlyphPosition[] glyphPosList) 
+	{
+		map.getGlyph(glyphPosList[0]).setTypeGlyph(
+				TypeGlyph.getRandomType());
+		map.getGlyph(glyphPosList[1]).setTypeGlyph(
+				TypeGlyph.getRandomType());
+		map.getGlyph(glyphPosList[2]).setTypeGlyph(
+				TypeGlyph.getRandomType());
+		map.getGlyph(glyphPosList[3]).setTypeGlyph(
+				TypeGlyph.getRandomType());
 	}
 	
 }
