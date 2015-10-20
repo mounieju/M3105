@@ -32,12 +32,17 @@ public class Move extends Action
 		
 		if (getAccessiblePos(map, pers).contains(target))
 		{
-			if (map.getTeamController().isDeductable(deltaX + deltaY))
-			{
-				map.moveCharacter(pers, target);
-				
-				map.getTeamController().deduct(deltaX + deltaY);
-			}
+			moveCharacter(map, pers, target, deltaX, deltaY);
+		}
+	}
+
+	private static void moveCharacter(Map map, Character pers,CellPosition target, int deltaX, int deltaY) 
+	{
+		if (map.getTeamController().isDeductable(deltaX + deltaY))
+		{
+			map.moveCharacter(pers, target);
+			
+			map.getTeamController().deduct(deltaX + deltaY);
 		}
 	}
 	
@@ -58,31 +63,35 @@ public class Move extends Action
 			 y < pers.getCellTraveled().getPosition().getPositionY() + map.getTeamController().getPlayingTeam().getActionPointsLeft() + 1 ;
 			 y++)
 		 {
-				for (int x = pers.getCellTraveled().getPosition().getPositionX() - map.getTeamController().getPlayingTeam().getActionPointsLeft() ;
-					 x < pers.getCellTraveled().getPosition().getPositionX() + map.getTeamController().getPlayingTeam().getActionPointsLeft() + 1 ;
-					 x++)
-				 {
-					 
-					 if (x >= 0 && y >= 0 &&
-						 x < map.getXSize() && y < map.getYSize())
-					 {
-						 if (map.getCell(new CellPosition(x, y)).getCharacter() == null)
-						 {
-							int deltaX = Math.abs(pers.getCellTraveled().getPosition().getPositionX() - x);
-							int deltaY = Math.abs(pers.getCellTraveled().getPosition().getPositionY() - y);
-							if (deltaX + deltaY <= map.getTeamController().getPlayingTeam().getActionPointsLeft())
-							{
-								cellList.add(new CellPosition(x, y));
-							}
-							 
-						 }
-						 
-					 }
-					 
-				 }
-				
-			 }
+			getEnableMove(map, pers, cellList, y);		
+		 }
 		
 		return cellList;
+	}
+
+	private static void getEnableMove(Map map, Character pers,ArrayList<CellPosition> cellList, int y)
+	{
+		for (int x = pers.getCellTraveled().getPosition().getPositionX() - map.getTeamController().getPlayingTeam().getActionPointsLeft() ;
+			 x < pers.getCellTraveled().getPosition().getPositionX() + map.getTeamController().getPlayingTeam().getActionPointsLeft() + 1 ;
+			 x++)
+		 {
+			 
+			 if (x >= 0 && y >= 0 &&
+				 x < map.getXSize() && y < map.getYSize())
+			 {
+				 if (map.getCell(new CellPosition(x, y)).getCharacter() == null)
+				 {
+					int deltaX = Math.abs(pers.getCellTraveled().getPosition().getPositionX() - x);
+					int deltaY = Math.abs(pers.getCellTraveled().getPosition().getPositionY() - y);
+					if (deltaX + deltaY <= map.getTeamController().getPlayingTeam().getActionPointsLeft())
+					{
+						cellList.add(new CellPosition(x, y));
+					}
+					 
+				 }
+				 
+			 }
+			 
+		 }
 	}
 }
